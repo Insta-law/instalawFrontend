@@ -1,19 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { LawyerService } from '../../services/lawyer.service';
 import { StatsService } from '../../services/stats.service';
-import { response } from 'express';
-
-interface SlotOpeningDto {
-  id: string;
-  startDate: string;
-  endDate: string;
-  startTime: string;
-  endTime: string;
-}
+import { SlotOpening } from '../../models/data-entity.model';
 
 @Component({
   selector: 'app-lawyer-dashboard',
@@ -33,7 +24,6 @@ export class LawyerDashboardComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient,
     private lawyer: LawyerService,
     private statservice: StatsService
   ) {
@@ -46,14 +36,14 @@ export class LawyerDashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadLawyer();
-    this.loadStats(this.lawyerId);
+    this.loadDetails();
   }
 
-  private loadLawyer() {
+  private loadDetails() {
     this.lawyer.getLawyerFromUserId().subscribe({
       next: (response) => {
         this.lawyerId = response.uuid;
+        this.loadStats(this.lawyerId);
       },
       error: (err) => {
         this.error = err.message;
@@ -85,25 +75,25 @@ export class LawyerDashboardComponent implements OnInit {
       this.isLoading = true;
       this.error = '';
 
-      const payload: SlotOpeningDto = {
-        id: 'user-id-here', // Replace with actual user ID from auth service
-        ...this.slotForm.value,
+      const payload: SlotOpening = {
+        id: this.lawyerId,
+        startDate: this.slotForm.value.startDate,
+        endDate: this.slotForm.value.endDate,
+        startTime: this.slotForm.value.startTime,
+        endTime: this.slotForm.value.endTime,
       };
 
-      this.http
-        .put<any>('/api/slot/openBatch', payload)
-        .pipe(catchError(this.handleError))
-        .subscribe({
-          next: () => {
-            this.slotForm.reset();
-            this.isLoading = false;
-            // Add success notification here
-          },
-          error: (error) => {
-            this.error = error.message;
-            this.isLoading = false;
-          },
-        });
+      this.lawyer.openSlots(payload).subscribe({
+        next: () => {
+          this.slotForm.reset();
+          this.isLoading = false;
+          // Add success notification here
+        },
+        error: (error) => {
+          this.error = error.message;
+          this.isLoading = false;
+        },
+      });
     }
   }
 

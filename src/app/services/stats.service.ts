@@ -10,22 +10,24 @@ export class StatsService {
 
   constructor(private http: HttpClient) {}
 
-  getOpenSlotsCount(uuid: string): Observable<number> {
+  getOpenSlotsCount(id: string): Observable<number> {
     return this.http.get<number>(`${this.API_URL}/bookings/stats/open`, {
-      params: { uuid },
+      params: { id },
+      withCredentials: true,
     });
   }
 
-  getBookedSlotsCount(uuid: string): Observable<number> {
+  getBookedSlotsCount(id: string): Observable<number> {
     return this.http.get<number>(`${this.API_URL}/bookings/stats/booked`, {
-      params: { uuid },
+      params: { id },
+      withCredentials: true,
     });
   }
 
-  getTotalClientsCount(uuid: string): Observable<number> {
+  getTotalClientsCount(id: string): Observable<number> {
     return this.http.get<number>(
       `${this.API_URL}/bookings/stats/totalClients`,
-      { params: { uuid } }
+      { params: { id }, withCredentials: true }
     );
   }
 }

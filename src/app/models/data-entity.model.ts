@@ -4,3 +4,12 @@ export interface Lawyer {
   governmentId: string;
   pricing: number;
 }
+
+
+export interface SlotOpening {
+  id: string;
+  startDate: string;
+  endDate: string;
+  startTime: string;
+  endTime: string;
+}
