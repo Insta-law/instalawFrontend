@@ -20,11 +20,39 @@ export class AuthService {
     private router: Router
   ) {
     if (isPlatformBrowser(this.platformId)) {
+      this.verifySession();
+    }
+  }
+  verifySession() {
+    if (isPlatformBrowser(this.platformId)) {
       const savedUser = localStorage.getItem('user');
+
       if (savedUser) {
+        // First set the user from localStorage
         this.userSubject.next(JSON.parse(savedUser));
+        this.isAuthenticated().subscribe({
+          next: (isValid) => {
+            if (!isValid) {
+              // If backend says session is invalid, logout
+              console.log('Session expired, logging out');
+              this.handleLogout();
+            }
+          },
+          error: () => {
+            // On error, assume session is invalid
+            console.log('Session verification failed, logging out');
+            this.handleLogout();
+          },
+        });
       }
     }
+  }
+  private handleLogout() {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('user');
+    }
+    this.userSubject.next(null);
+    this.router.navigate(['/login']);
   }
 
   login(email: string, password: string): Observable<any> {
@@ -95,9 +123,9 @@ export class AuthService {
     return this.userSubject.value;
   }
 
-  isAuthenticated(): Observable<string> {
+  isAuthenticated(): Observable<Boolean> {
     return this.http
-      .get<string>(`${this.API_URL}/isAuthenticated`, {
+      .get<Boolean>(`${this.API_URL}/isAuthenticated`, {
         withCredentials: true,
       })
       .pipe(

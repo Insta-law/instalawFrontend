@@ -31,11 +31,8 @@ export class LawyerService {
     return this.http
       .put<string>(`${this.API_URL}/slot/openBatch`, payload, {
         withCredentials: true,
+        responseType: 'text' as 'json',
       })
-      .pipe(
-        tap((response) => {
-          console.log(response);
-        })
-      );
+      .pipe();
   }
 }
