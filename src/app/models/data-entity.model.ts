@@ -13,3 +13,21 @@ export interface SlotOpening {
   startTime: string;
   endTime: string;
 }
+
+export interface Booking {
+  id: string;
+  lawyer: {
+    uuid: string;
+    userName: string;
+  };
+  bookedBy: {
+    id: string;
+    username: string;
+  } | null;
+  workingDate: string;
+  slot: {
+    id: string;
+    time: string;
+  };
+  status: 'OPEN' | 'BOOKED' | 'COMPLETED' | 'CANCELLED';
+}

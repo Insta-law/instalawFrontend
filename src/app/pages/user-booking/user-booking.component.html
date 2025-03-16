@@ -1,0 +1,205 @@
+<!-- my-bookings.component.html -->
+<div class="min-h-screen bg-gray-50 py-8">
+  <div class="max-w-6xl mx-auto px-4">
+    <h1 class="text-2xl font-bold text-gray-900 mb-6">My Bookings</h1>
+
+    <!-- Loading state -->
+    <div *ngIf="isLoading" class="flex justify-center items-center h-64">
+      <div
+        class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"
+      ></div>
+    </div>
+
+    <!-- Error message -->
+    <div
+      *ngIf="error"
+      class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6"
+    >
+      {{ error }}
+    </div>
+
+    <!-- No bookings message -->
+    <div
+      *ngIf="!isLoading && bookings.length === 0"
+      class="bg-white rounded-lg shadow-sm p-8 text-center"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="mx-auto h-12 w-12 text-gray-400"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
+      </svg>
+      <h3 class="mt-2 text-lg font-medium text-gray-900">No bookings found</h3>
+      <p class="mt-1 text-gray-500">You haven't made any appointments yet.</p>
+      <div class="mt-6">
+        <a
+          routerLink="/lawyers"
+          class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+        >
+          Find a Lawyer
+        </a>
+      </div>
+    </div>
+
+    <!-- Bookings list -->
+    <div *ngIf="!isLoading && bookings.length > 0">
+      <!-- Filter tabs -->
+      <div class="border-b border-gray-200 mb-6">
+        <nav class="-mb-px flex space-x-8">
+          <button
+            (click)="setActiveTab('upcoming')"
+            class="pb-4 px-1 border-b-2 font-medium text-sm"
+            [class.border-blue-500]="activeTab === 'upcoming'"
+            [class.text-blue-600]="activeTab === 'upcoming'"
+            [class.border-transparent]="activeTab !== 'upcoming'"
+            [class.text-gray-500]="activeTab !== 'upcoming'"
+          >
+            Upcoming
+          </button>
+
+          <button
+            (click)="setActiveTab('past')"
+            class="pb-4 px-1 border-b-2 font-medium text-sm"
+            [class.border-blue-500]="activeTab === 'past'"
+            [class.text-blue-600]="activeTab === 'past'"
+            [class.border-transparent]="activeTab !== 'past'"
+            [class.text-gray-500]="activeTab !== 'past'"
+          >
+            Past
+          </button>
+
+          <button
+            (click)="setActiveTab('cancelled')"
+            class="pb-4 px-1 border-b-2 font-medium text-sm"
+            [class.border-blue-500]="activeTab === 'cancelled'"
+            [class.text-blue-600]="activeTab === 'cancelled'"
+            [class.border-transparent]="activeTab !== 'cancelled'"
+            [class.text-gray-500]="activeTab !== 'cancelled'"
+          >
+            Cancelled
+          </button>
+        </nav>
+      </div>
+
+      <!-- No bookings for selected filter -->
+      <div
+        *ngIf="filteredBookings.length === 0"
+        class="bg-white rounded-lg shadow-sm p-8 text-center"
+      >
+        <h3 class="text-lg font-medium text-gray-900">
+          No {{ activeTab }} bookings
+        </h3>
+        <p class="mt-1 text-gray-500">
+          <ng-container *ngIf="activeTab === 'upcoming'"
+            >You don't have any upcoming appointments.</ng-container
+          >
+          <ng-container *ngIf="activeTab === 'past'"
+            >You don't have any past appointments.</ng-container
+          >
+          <ng-container *ngIf="activeTab === 'cancelled'"
+            >You don't have any cancelled appointments.</ng-container
+          >
+        </p>
+      </div>
+
+      <!-- Booking cards -->
+      <div *ngIf="filteredBookings.length > 0" class="space-y-4">
+        <div
+          *ngFor="let booking of filteredBookings"
+          class="bg-white rounded-lg shadow-sm overflow-hidden"
+        >
+          <!-- Status indicator -->
+          <div
+            class="h-2 w-full"
+            [class.bg-blue-500]="booking.status === 'BOOKED'"
+            [class.bg-green-500]="booking.status === 'COMPLETED'"
+            [class.bg-red-500]="booking.status === 'CANCELLED'"
+          ></div>
+
+          <div class="p-6">
+            <div class="sm:flex sm:items-start sm:justify-between">
+              <!-- Booking details -->
+              <div>
+                <h3 class="text-lg font-bold text-gray-900">
+                  {{ booking.lawyer.userName }}
+                </h3>
+
+                <div class="mt-2 text-sm text-gray-500">
+                  <div class="flex items-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-4 w-4 mr-2"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      />
+                    </svg>
+                    <span>{{ formatDate(booking.workingDate) }}</span>
+                  </div>
+
+                  <div class="flex items-center mt-1">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-4 w-4 mr-2"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <span>{{ booking.slot.time }}</span>
+                  </div>
+                </div>
+
+                <!-- Status tag -->
+                <div class="mt-3">
+                  <span
+                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
+                    [class.bg-blue-100]="booking.status === 'BOOKED'"
+                    [class.text-blue-800]="booking.status === 'BOOKED'"
+                    [class.bg-green-100]="booking.status === 'COMPLETED'"
+                    [class.text-green-800]="booking.status === 'COMPLETED'"
+                    [class.bg-red-100]="booking.status === 'CANCELLED'"
+                    [class.text-red-800]="booking.status === 'CANCELLED'"
+                  >
+                    {{ booking.status }}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Actions -->
+              <div class="mt-4 sm:mt-0">
+                <button
+                  *ngIf="canCancel(booking)"
+                  (click)="cancelBooking(booking.id)"
+                  class="inline-flex items-center px-3 py-1.5 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-red-600 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                >
+                  Cancel Booking
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

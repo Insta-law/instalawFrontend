@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Lawyer, SlotOpening } from '../models/data-entity.model';
 import { Observable, tap } from 'rxjs';
+import { LawyerSearch } from '../models/search.model';
 
 @Injectable({
   providedIn: 'root',
@@ -34,5 +35,17 @@ export class LawyerService {
         responseType: 'text' as 'json',
       })
       .pipe();
+  }
+
+  getAllLawyers(): Observable<LawyerSearch[]> {
+    return this.http.get<LawyerSearch[]>(`${this.API_URL}/lawyer/all`, {
+      withCredentials: true,
+    });
+  }
+
+  getLawyerById(lawyerId: string): Observable<Lawyer> {
+    return this.http.get<Lawyer>(`${this.API_URL}/lawyer/${lawyerId}`, {
+      withCredentials: true,
+    });
   }
 }

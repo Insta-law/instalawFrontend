@@ -12,13 +12,14 @@
         </p>
         <div class="space-x-4">
           <a
-            routerLink="/lawyers"
+            routerLink="/search"
             class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100"
           >
             Find a Lawyer
           </a>
           <a
-            routerLink="/auth/register"
+            *ngIf="!isLoggedIn()"
+            routerLink="/register"
             class="bg-transparent border-2 border-white px-6 py-3 rounded-lg font-semibold hover:bg-white/10"
           >
             Join as a Lawyer
