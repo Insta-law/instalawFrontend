@@ -1,0 +1,51 @@
+<div class="flex flex-col h-[calc(100vh-76px)] overflow-hidden">
+  <div class="flex border-b border-grey-200 pr-[16px]">
+    <!-- 16px padding to match scrollbar width -->
+    <div class="w-24 flex-shrink-0 border-r border-gray-200"></div>
+    <div class="flex flex-1">
+      <div
+        *ngFor="let day of days"
+        class="flex-1 py-2 border-r border-gray-200"
+      >
+        <div class="text-center">
+          <div class="text-sm text-gray-500">{{ day.dayName }}</div>
+          <div class="text-2xl font-normal mt-1">{{ day.dayNumber }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-1 overflow-y-auto">
+    <div class="w-24 flex-shrink-0">
+      <div
+        *ngFor="let hour of hours"
+        class="h-[60px] relative text-right border-b border-r border-grey-200 pr-2"
+      >
+        <div class="text-xs font-bold text-gray-500">{{ hour }}</div>
+      </div>
+    </div>
+    <div class="flex-1 relative">
+      <div class="flex flex-1 flex-col">
+        <div
+          *ngFor="let hour of hours"
+          class="flex h-[60px] border-b border-gray-200"
+        >
+          <div
+            *ngFor="let day of days"
+            class="flex-1 border-r border-gray-200"
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      *ngFor="let event of events"
+      class="absolute rounded p-2 overflow-hidden cursor-pointer shadow-sm"
+      [style.top.px]="event.top"
+      [style.height.px]="event.height"
+      [style.left.percent]="event.left"
+      [style.width.percent]="event.width"
+      [style.backgroundColor]="event.event.color"
+    ></div>
+  </div>
+</div>

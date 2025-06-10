@@ -18,6 +18,10 @@ import { AuthService } from './services/auth.service';
 import { SearchComponent } from './pages/search/search.component';
 import { BookingComponent } from './pages/booking/booking.component';
 import { UserBookingComponent } from './pages/user-booking/user-booking.component';
+import { CalenderComponent } from './pages/calender/calender.component';
+import { CalenderHeaderComponent } from './pages/calender-components/calender-header/calender-header.component';
+import { CalenderBodyComponent } from './pages/calender-components/calender-body/calender-body.component';
+import { MonthYearPipe } from './pipes/month-year.pipe';
 
 @NgModule({
   declarations: [
@@ -30,6 +34,10 @@ import { UserBookingComponent } from './pages/user-booking/user-booking.componen
     SearchComponent,
     BookingComponent,
     UserBookingComponent,
+    CalenderComponent,
+    CalenderHeaderComponent,
+    CalenderBodyComponent,
+    MonthYearPipe,
   ],
   imports: [
     BrowserModule,

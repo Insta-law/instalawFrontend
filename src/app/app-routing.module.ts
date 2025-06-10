@@ -9,9 +9,11 @@ import { SearchComponent } from './pages/search/search.component';
 import { BookingComponent } from './pages/booking/booking.component';
 import { UserBookingComponent } from './pages/user-booking/user-booking.component';
 import { UserAuthGuard } from './pages/user-booking/user-auth.guard';
+import { CalenderComponent } from './pages/calender/calender.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
+  { path: 'calenderDev', component: CalenderComponent},
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   {
