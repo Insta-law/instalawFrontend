@@ -4,12 +4,12 @@ import { AuthService } from './auth.service';
 import { Lawyer, SlotOpening } from '../models/data-entity.model';
 import { Observable, tap } from 'rxjs';
 import { LawyerSearch } from '../models/search.model';
-
+import { environment } from '../../environments/environment'; // Adjust the path as necessary
 @Injectable({
   providedIn: 'root',
 })
 export class LawyerService {
-  private readonly API_URL = 'http://localhost:8080/api';
+  private readonly API_URL = `${environment.apiUrl}`;
 
   constructor(private http: HttpClient, private auth: AuthService) {}
 

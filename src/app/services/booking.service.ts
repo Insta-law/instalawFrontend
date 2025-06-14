@@ -2,12 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Booking } from '../models/data-entity.model';
-
+import { environment } from '../../environments/environment'; // Adjust the path as necessary
 @Injectable({
   providedIn: 'root',
 })
 export class BookingService {
-  private readonly API_URL = 'http://localhost:8080/api';
+  private readonly API_URL = `${environment.apiUrl}`;
 
   constructor(private http: HttpClient) {}
 

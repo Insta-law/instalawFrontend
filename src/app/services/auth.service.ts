@@ -4,13 +4,13 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
-
+import { environment } from '../../environments/environment'; // Adjust the path as necessary
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly API_URL = 'http://localhost:8080/api/auth';
-  private readonly BASE_URL = 'http://localhost:8080';
+  private readonly API_URL = `${environment.apiUrl}/auth`;
+  private readonly BASE_URL = `${environment.baseUrl}`;
   private userSubject = new BehaviorSubject<any>(null);
   user$ = this.userSubject.asObservable();
 

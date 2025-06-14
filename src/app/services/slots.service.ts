@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-
+import { environment } from '../../environments/environment'; // Adjust the path as necessary
 @Injectable({
   providedIn: 'root',
 })
 export class SlotsService {
-  private readonly API_URL = 'http://localhost:8080/api';
+  private readonly API_URL = `${environment.apiUrl}`;
   constructor(private http: HttpClient) {}
 
   getLawyerAvailability(lawyerId: string, date: string): Observable<string[]> {

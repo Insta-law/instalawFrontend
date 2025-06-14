@@ -1,0 +1,94 @@
+param location string = resourceGroup().location
+param appName string = 'knowlaw-frontend'
+param containerImage string = 'knowlawregistry.azurecr.io/knowlaw-frontend:latest'
+
+// Container Registry
+resource containerRegistry 'Microsoft.ContainerRegistry/registries@2023-01-01-preview' = {
+  name: 'knowlawregistry'
+  location: location
+  sku: {
+    name: 'Basic'
+  }
+  properties: {
+    adminUserEnabled: true
+  }
+}
+
+// Log Analytics Workspace
+resource logAnalytics 'Microsoft.OperationalInsights/workspaces@2022-10-01' = {
+  name: '${appName}-logs'
+  location: location
+  properties: {
+    sku: {
+      name: 'PerGB2018'
+    }
+    retentionInDays: 30
+  }
+}
+
+// Container Apps Environment
+resource containerAppsEnvironment 'Microsoft.App/managedEnvironments@2023-05-01' = {
+  name: '${appName}-env'
+  location: location
+  properties: {
+    appLogsConfiguration: {
+      destination: 'log-analytics'
+      logAnalyticsConfiguration: {
+        customerId: logAnalytics.properties.customerId
+        sharedKey: logAnalytics.listKeys().primarySharedKey
+      }
+    }
+  }
+}
+
+// Container App (without auto-scaling)
+resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
+  name: appName
+  location: location
+  properties: {
+    managedEnvironmentId: containerAppsEnvironment.id
+    configuration: {
+      ingress: {
+        external: true
+        targetPort: 4000
+        allowInsecure: false
+      }
+    }
+    template: {
+      containers: [
+        {
+          image: containerImage
+          name: 'knowlaw-frontend'
+          env: [
+            {
+              name: 'API_URL'
+              value: 'http://localhost:8080/api'
+            }
+            {
+              name: 'BASE_URL'
+              value: 'http://localhost:8080'
+            }
+            {
+              name: 'NODE_ENV'
+              value: 'production'
+            }
+          ]
+          resources: {
+            cpu: json('0.5')
+            memory: json('1Gi')
+          }
+        }
+      ]
+      scale: {
+        minReplicas: 1
+        maxReplicas: 1
+      }
+    }
+  }
+  dependsOn: [
+    containerRegistry
+  ]
+}
+
+output containerAppUrl string = 'https://${containerApp.properties.configuration.ingress.fqdn}'
+output acrLoginServer string = containerRegistry.properties.loginServer
