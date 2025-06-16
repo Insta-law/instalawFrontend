@@ -28,10 +28,10 @@ name: Build and deploy a container to an Azure Container App
 
 env:
   AZURE_WEBAPP_NAME: InstaLaw  # set this to the name of your Azure Web App
-  AZURE_CONTAINER_REGISTRY: knowlawregistry.azurecr.io
-  CONTAINER_NAME: knowlaw-frontend
-  RESOURCE_GROUP: knowlaw-rg
-  CONTAINER_APP_NAME: knowlaw-frontend
+  AZURE_CONTAINER_REGISTRY: instalawregistry-bcgnbxgqanc5dcbz.azurecr.io
+  CONTAINER_NAME: instalaw
+  RESOURCE_GROUP: instalaw-rg
+  CONTAINER_APP_NAME: instalaw-rg
 
 on:
   push:
@@ -45,13 +45,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Setup NodeJs
         uses: actions/setup-node@v4
         with:
           node-version:  '20'
           cache: 'npm'
-          
+
       - name: Install dependencies
         run: npm ci
 
@@ -76,6 +76,6 @@ jobs:
           containerAppName: ${{ env.CONTAINER_APP_NAME }}
           resourceGroup: ${{ env.RESOURCE_GROUP }}
           imageToDeploy: ${{ env.AZURE_CONTAINER_REGISTRY }}/${{ env.CONTAINER_NAME }}:latest
-        
 
-      
+
+

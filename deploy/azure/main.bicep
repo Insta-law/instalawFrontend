@@ -1,10 +1,10 @@
 param location string = resourceGroup().location
-param appName string = 'knowlaw-frontend'
-param containerImage string = 'knowlawregistry.azurecr.io/knowlaw-frontend:latest'
+param appName string = 'instalaw'
+param containerImage string = 'instalawregistry-bcgnbxgqanc5dcbz.azurecr.io/instalaw:latest'
 
 // Container Registry
 resource containerRegistry 'Microsoft.ContainerRegistry/registries@2023-01-01-preview' = {
-  name: 'knowlawregistry'
+  name: 'instalawregistry-${uniqueString(resourceGroup().id)}'
   location: location
   sku: {
     name: 'Basic'
@@ -58,7 +58,7 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
       containers: [
         {
           image: containerImage
-          name: 'knowlaw-frontend'
+          name: 'instalaw'
           env: [
             {
               name: 'API_URL'
