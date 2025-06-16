@@ -31,7 +31,7 @@ env:
   AZURE_CONTAINER_REGISTRY: instalawregistry-bcgnbxgqanc5dcbz.azurecr.io
   CONTAINER_NAME: instalaw
   RESOURCE_GROUP: instalaw-rg
-  CONTAINER_APP_NAME: instalaw-rg
+  CONTAINER_APP_NAME: instalaw
 
 on:
   push:
