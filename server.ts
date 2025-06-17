@@ -59,8 +59,28 @@ function run(): void {
 
   // Start up the Node server
   const server = app();
-  server.listen(port, () => {
-    console.log(`Node Express server listening on http://localhost:${port}`);
+
+  // Add error handling
+  server.on('error', (error: any) => {
+    console.error('❌ Server error:', error);
+    process.exit(1);
+  });
+
+  // Proper binding for Docker
+  server.listen(port, '0.0.0.0', () => {
+    console.log(`✅ Server listening on http://0.0.0.0:${port}`);
+    console.log('🌐 Server is ready to accept connections');
+  });
+
+  // Keep process alive
+  process.on('SIGTERM', () => {
+    console.log('🛑 SIGTERM received, shutting down gracefully');
+    process.exit(0);
+  });
+
+  process.on('SIGINT', () => {
+    console.log('🛑 SIGINT received, shutting down gracefully');
+    process.exit(0);
   });
 }
 
