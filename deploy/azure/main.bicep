@@ -62,11 +62,11 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
           env: [
             {
               name: 'API_URL'
-              value: 'http://localhost:8080/api'
+              value: 'https://instalaw-dwdtara6aze3h7f4.centralindia-01.azurewebsites.net/api'
             }
             {
               name: 'BASE_URL'
-              value: 'http://localhost:8080'
+              value: 'https://instalaw-dwdtara6aze3h7f4.centralindia-01.azurewebsites.net'
             }
             {
               name: 'NODE_ENV'
