@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:knowlaw-frontend": "node dist/knowlaw-frontend/server/server.mjs"
+    "serve:ssr:knowlaw-frontend": "node dist/knowlaw-frontend/server/server.mjs",
+    "build:ssr": "ng build knowlaw-frontend --configuration production && ng run knowlaw-frontend:server:production"
   },
   "private": true,
   "dependencies": {
