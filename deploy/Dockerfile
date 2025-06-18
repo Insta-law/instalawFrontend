@@ -22,5 +22,5 @@ RUN chown -R angular:nodejs /app
 USER angular
 ENV PORT=4000
 EXPOSE 4000
-CMD ["node", "dist/knowlaw-frontend/server/server.mjs"]
+CMD ["node", "dist/knowlaw-frontend/server/main.js"]
 
