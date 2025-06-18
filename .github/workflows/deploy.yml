@@ -70,7 +70,8 @@ jobs:
         run: echo "IMAGE_TAG=${{ github.sha }}" >> $GITHUB_ENV
 
       - name: Build Docker image
-        run: docker build \
+        run: |
+          docker build \
           -f deploy/Dockerfile \
           --build-arg API_URL=${{ secrets.API_URL }} \
           --build-arg BASE_URL=${{ secrets.BASE_URL }} \
