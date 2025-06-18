@@ -53,6 +53,7 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
         targetPort: 4000
         allowInsecure: false
       }
+      activeRevisionsMode: 'Single'
     }
     template: {
       containers: [
