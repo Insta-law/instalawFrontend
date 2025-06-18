@@ -8,8 +8,10 @@ import AppServerModule from './src/main.server';
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
-  const serverDistFolder = dirname(fileURLToPath(import.meta.url));
-  const browserDistFolder = resolve(serverDistFolder, '../browser');
+  const browserDistFolder = join(
+    process.cwd(),
+    'dist/knowlaw-frontend/browser'
+  );
   const indexHtml = join(browserDistFolder, 'index.html');
   const commonEngine = new CommonEngine();
 
