@@ -77,6 +77,7 @@ export class AuthService {
       signupRequest,
       {
         withCredentials: true,
+        responseType: 'text' as 'json',
       }
     );
   }

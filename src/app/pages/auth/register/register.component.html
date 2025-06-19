@@ -157,7 +157,7 @@
             >Register as</label
           >
           <select
-            formControlName="roleName"
+            formControlName="role"
             class="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           >
             <option value="CONSUMER_ROLE">Client</option>
@@ -167,7 +167,7 @@
 
         <!-- Lawyer specific fields -->
         <ng-container
-          *ngIf="registerForm.get('roleName')?.value === 'PROVIDER_ROLE'"
+          *ngIf="registerForm.get('role')?.value === 'PROVIDER_ROLE'"
         >
           <!-- Government ID -->
           <div>
@@ -176,14 +176,14 @@
             >
             <input
               type="text"
-              formControlName="governmentId"
+              formControlName="govtId"
               class="mt-1 block w-full pl-3 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               placeholder="Enter your government ID"
             />
           </div>
 
           <!-- Pricing -->
-          <div>
+          <!--div>
             <label class="block text-sm font-medium text-gray-700"
               >Hourly Rate (₹)</label
             >
@@ -200,7 +200,7 @@
                 placeholder="Enter your hourly rate"
               />
             </div>
-          </div>
+          </div-->
         </ng-container>
 
         <!-- Submit Button -->

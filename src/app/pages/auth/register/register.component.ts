@@ -24,26 +24,22 @@ export class RegisterComponent {
       username: ['', Validators.required],
       phone: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      roleName: ['CONSUMER_ROLE', Validators.required],
-      governmentId: [''],
-      pricing: [null],
+      role: ['CONSUMER_ROLE', Validators.required],
+      govtId: [''],
     });
 
     // Add conditional validators for lawyer fields
-    this.registerForm.get('roleName')?.valueChanges.subscribe((role) => {
-      const governmentIdControl = this.registerForm.get('governmentId');
-      const pricingControl = this.registerForm.get('pricing');
+    this.registerForm.get('role')?.valueChanges.subscribe((role) => {
+      const govtIdControl = this.registerForm.get('govtId');
 
       if (role === 'PROVIDER_ROLE') {
-        governmentIdControl?.setValidators(Validators.required);
-        pricingControl?.setValidators([Validators.required, Validators.min(0)]);
+        govtIdControl?.setValidators(Validators.required);
       } else {
-        governmentIdControl?.clearValidators();
-        pricingControl?.clearValidators();
+        govtIdControl?.clearValidators();
+        govtIdControl?.setValue('');
       }
 
-      governmentIdControl?.updateValueAndValidity();
-      pricingControl?.updateValueAndValidity();
+      govtIdControl?.updateValueAndValidity();
     });
   }
 
@@ -51,8 +47,15 @@ export class RegisterComponent {
     if (this.registerForm.valid) {
       this.isLoading = true;
       this.error = '';
-
-      this.authService.requestSignup(this.registerForm.value).subscribe({
+      const signupData = {
+        email: this.registerForm.value.email,
+        username: this.registerForm.value.username,
+        phone: this.registerForm.value.phone,
+        password: this.registerForm.value.password,
+        role: this.registerForm.value.role,
+        govtId: this.registerForm.value.govtId || '' // Ensure empty string instead of null
+      };
+      this.authService.requestSignup(signupData).subscribe({
         next: () => {
           this.currentStep = 2;
           this.isLoading = false;
@@ -76,7 +79,7 @@ export class RegisterComponent {
           next: () => {
             this.router.navigate(['/']);
           },
-          error: (err: { error: string; }) => {
+          error: (err: { error: string }) => {
             this.error =
               err.error || 'OTP verification failed. Please try again.';
             this.isLoading = false;
