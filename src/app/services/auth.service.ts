@@ -87,6 +87,7 @@ export class AuthService {
       .post<any>(`${this.API_URL}/finaliseSignup`, signupRequest, {
         params: { otp },
         withCredentials: true,
+        responseType: 'text' as 'json',
       })
       .pipe(
         tap((user) => {
