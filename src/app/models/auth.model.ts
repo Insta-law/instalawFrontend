@@ -18,3 +18,10 @@ export interface AuthenticatedUserDetails {
     roleName: string;
   };
 }
+
+
+export interface SignupResponse{
+  user: AuthenticatedUserDetails;
+  isSuccess: boolean;
+  errorResponse: string;
+}

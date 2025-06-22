@@ -53,7 +53,7 @@ export class RegisterComponent {
         phone: this.registerForm.value.phone,
         password: this.registerForm.value.password,
         role: this.registerForm.value.role,
-        govtId: this.registerForm.value.govtId || '' // Ensure empty string instead of null
+        govtId: this.registerForm.value.govtId || '', // Ensure empty string instead of null
       };
       this.authService.requestSignup(signupData).subscribe({
         next: () => {
@@ -79,9 +79,9 @@ export class RegisterComponent {
           next: () => {
             this.router.navigate(['/']);
           },
-          error: (err: { error: string }) => {
+          error: (err) => {
             this.error =
-              err.error || 'OTP verification failed. Please try again.';
+              err.errorResponse || 'OTP verification failed. Please try again.';
             this.isLoading = false;
           },
         });

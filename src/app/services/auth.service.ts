@@ -4,7 +4,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
-import { environment } from '../../environments/environment'; // Adjust the path as necessary
+import { environment } from '../../environments/environment';
+import { SignupResponse } from '../models/auth.model';
 @Injectable({
   providedIn: 'root',
 })
@@ -82,19 +83,20 @@ export class AuthService {
     );
   }
 
-  finalizeSignup(signupRequest: any, otp: string): Observable<any> {
+  finalizeSignup(signupRequest: any, otp: string): Observable<SignupResponse> {
     return this.http
-      .post<any>(`${this.API_URL}/finaliseSignup`, signupRequest, {
+      .post<SignupResponse>(`${this.API_URL}/finaliseSignup`, signupRequest, {
         params: { otp },
         withCredentials: true,
-        responseType: 'text' as 'json',
       })
       .pipe(
-        tap((user) => {
-          if (isPlatformBrowser(this.platformId)) {
-            localStorage.setItem('user', JSON.stringify(user));
+        tap((response) => {
+          if (response.isSuccess === true) {
+            if (isPlatformBrowser(this.platformId)) {
+              localStorage.setItem('user', JSON.stringify(response.user));
+            }
+            this.userSubject.next(response.user);
           }
-          this.userSubject.next(user);
         })
       );
   }
