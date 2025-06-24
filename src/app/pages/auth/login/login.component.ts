@@ -32,14 +32,14 @@ export class LoginComponent {
 
       this.authService.login(email, password).subscribe({
         next: (response) => {
-          if (response.role.roleName === 'PROVIDER_ROLE') {
+          if (response.user.role.roleName === 'PROVIDER_ROLE') {
             this.router.navigate(['/lawyer']);
           } else {
             this.router.navigate(['/']);
           }
         },
         error: (err) => {
-          this.error = err.error || 'Login failed. Please try again.';
+          this.error = err.errorResponse || 'Login failed. Please try again.';
           this.isLoading = false;
         },
       });

@@ -56,18 +56,20 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
-  login(email: string, password: string): Observable<any> {
+  login(email: string, password: string): Observable<SignupResponse> {
     return this.http
-      .post<any>(`${this.API_URL}/login`, null, {
+      .post<SignupResponse>(`${this.API_URL}/login`, null, {
         params: { email, password },
         withCredentials: true,
       })
       .pipe(
-        tap((user) => {
-          if (isPlatformBrowser(this.platformId)) {
-            localStorage.setItem('user', JSON.stringify(user));
+        tap((response) => {
+          if (response.isSuccess === true) {
+            if (isPlatformBrowser(this.platformId)) {
+              localStorage.setItem('user', JSON.stringify(response.user));
+            }
+            this.userSubject.next(response.user);
           }
-          this.userSubject.next(user);
         })
       );
   }
