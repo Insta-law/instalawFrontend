@@ -21,7 +21,7 @@ export interface AuthenticatedUserDetails {
 
 
 export interface SignupResponse{
-  user: AuthenticatedUserDetails;
+  userDetails: AuthenticatedUserDetails;
   isSuccess: boolean;
   errorResponse: string;
 }

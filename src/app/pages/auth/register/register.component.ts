@@ -81,7 +81,8 @@ export class RegisterComponent {
           },
           error: (err) => {
             this.error =
-              err.errorResponse || 'OTP verification failed. Please try again.';
+              err.error.errorResponse ||
+              'OTP verification failed. Please try again.';
             this.isLoading = false;
           },
         });

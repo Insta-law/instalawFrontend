@@ -66,9 +66,9 @@ export class AuthService {
         tap((response) => {
           if (response.isSuccess === true) {
             if (isPlatformBrowser(this.platformId)) {
-              localStorage.setItem('user', JSON.stringify(response.user));
+              localStorage.setItem('user', JSON.stringify(response.userDetails));
             }
-            this.userSubject.next(response.user);
+            this.userSubject.next(response.userDetails);
           }
         })
       );
@@ -95,9 +95,9 @@ export class AuthService {
         tap((response) => {
           if (response.isSuccess === true) {
             if (isPlatformBrowser(this.platformId)) {
-              localStorage.setItem('user', JSON.stringify(response.user));
+              localStorage.setItem('user', JSON.stringify(response.userDetails));
             }
-            this.userSubject.next(response.user);
+            this.userSubject.next(response.userDetails);
           }
         })
       );
