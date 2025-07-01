@@ -32,6 +32,7 @@ export class LoginComponent {
 
       this.authService.login(email, password).subscribe({
         next: (response) => {
+          console.log('Login successful:', response);
           if (response.userDetails.role.roleName === 'PROVIDER_ROLE') {
             this.router.navigate(['/lawyer']);
           } else {
