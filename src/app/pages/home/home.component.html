@@ -1,166 +1,227 @@
-<!-- Hero Section -->
-<section class="relative bg-gradient-to-r from-blue-600 to-blue-800 text-white">
-  <div class="max-w-7xl mx-auto px-4 py-20">
-    <div class="grid md:grid-cols-2 gap-8 items-center">
-      <div>
-        <h1 class="text-4xl md:text-5xl font-bold mb-6">
-          Expert Legal Help at Your Fingertips
+<!-- ═══════════════════════════════════════════════ HERO ═══ -->
+<section class="relative bg-slate-950 text-white overflow-hidden dot-grid min-h-[90vh] flex items-center">
+  <!-- Ambient glow blobs -->
+  <div class="absolute inset-0 pointer-events-none overflow-hidden">
+    <div class="absolute -top-32 left-1/4 w-[600px] h-[600px] bg-indigo-600/20 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 w-[500px] h-[500px] bg-violet-600/15 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/2 left-0 w-[300px] h-[300px] bg-blue-600/10 rounded-full blur-3xl"></div>
+  </div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-24 md:py-32 w-full">
+    <div class="grid md:grid-cols-2 gap-16 items-center">
+
+      <!-- Left -->
+      <div class="animate-fade-up">
+        <!-- Pill badge -->
+        <div class="glass inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-8">
+          <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+          <span class="text-xs font-medium text-slate-300 tracking-wide">Trusted by 10,000+ clients across India</span>
+        </div>
+
+        <h1 class="text-5xl md:text-6xl xl:text-7xl font-extrabold leading-[1.05] tracking-tight mb-6">
+          Expert Legal<br />
+          Help <span class="gradient-text">at Your</span><br />
+          <span class="gradient-text">Fingertips</span>
         </h1>
-        <p class="text-xl mb-8">
-          Connect with experienced lawyers for professional legal advice and
-          consultation.
+
+        <p class="text-slate-400 text-lg leading-relaxed mb-10 max-w-md">
+          Connect with verified lawyers for professional legal advice — fast, secure, and completely hassle-free.
         </p>
-        <div class="space-x-4">
-          <a
-            routerLink="/search"
-            class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100"
-          >
+
+        <div class="flex flex-wrap gap-3">
+          <a routerLink="/search"
+            class="group inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-xl font-semibold shadow-lg shadow-indigo-950 transition-all duration-200">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
             Find a Lawyer
+            <svg class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+            </svg>
           </a>
-          <a
-            *ngIf="!isLoggedIn()"
-            routerLink="/register"
-            class="bg-transparent border-2 border-white px-6 py-3 rounded-lg font-semibold hover:bg-white/10"
-          >
+          <a *ngIf="!isLoggedIn()" routerLink="/register"
+            class="inline-flex items-center gap-2 glass hover:bg-white/12 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200">
             Join as a Lawyer
           </a>
         </div>
+
+        <!-- Stats row -->
+        <div class="grid grid-cols-3 gap-6 mt-14 pt-10 border-t border-white/10">
+          <div>
+            <p class="text-3xl font-black text-white tracking-tight">500+</p>
+            <p class="text-xs text-slate-500 mt-1 uppercase tracking-widest">Verified Lawyers</p>
+          </div>
+          <div>
+            <p class="text-3xl font-black text-white tracking-tight">10k+</p>
+            <p class="text-xs text-slate-500 mt-1 uppercase tracking-widest">Consultations</p>
+          </div>
+          <div>
+            <p class="text-3xl font-black text-white tracking-tight">4.9★</p>
+            <p class="text-xs text-slate-500 mt-1 uppercase tracking-widest">Avg Rating</p>
+          </div>
+        </div>
       </div>
-      <div class="hidden md:block">
-        <!-- Placeholder for illustration -->
-        <div class="w-full h-96 bg-blue-500/20 rounded-lg"></div>
+
+      <!-- Right: floating mock card -->
+      <div class="hidden md:flex justify-center items-center">
+        <div class="relative w-[340px] animate-float">
+          <!-- Shadow card back -->
+          <div class="absolute inset-0 translate-x-4 translate-y-4 glass rounded-3xl opacity-50"></div>
+          <!-- Main card -->
+          <div class="relative glass rounded-3xl p-6 space-y-5">
+            <!-- Lawyer header -->
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white text-xl font-black shadow-lg shadow-indigo-900/50">
+                P
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="font-semibold text-white text-sm truncate">Adv. Priya Sharma</p>
+                <p class="text-xs text-slate-400 mt-0.5">Corporate Law · 8 yrs exp.</p>
+              </div>
+              <span class="flex-shrink-0 flex items-center gap-1 text-[11px] font-semibold text-emerald-400 bg-emerald-400/10 border border-emerald-400/20 px-2.5 py-1 rounded-full">
+                <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full"></span>
+                Available
+              </span>
+            </div>
+
+            <!-- Divider -->
+            <div class="border-t border-white/10"></div>
+
+            <!-- Slots -->
+            <div>
+              <p class="text-[11px] font-semibold text-slate-500 uppercase tracking-widest mb-3">Today's Slots</p>
+              <div class="grid grid-cols-3 gap-2">
+                <div class="glass rounded-xl py-2 text-center text-xs font-medium text-slate-300">10:00 AM</div>
+                <div class="glass rounded-xl py-2 text-center text-xs font-medium text-slate-300">2:00 PM</div>
+                <div class="bg-emerald-500/20 border border-emerald-500/30 rounded-xl py-2 text-center text-xs font-semibold text-emerald-300">4:00 PM</div>
+              </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="flex items-center justify-between pt-3 border-t border-white/10">
+              <div>
+                <p class="text-[11px] text-slate-500">Consultation Fee</p>
+                <p class="text-2xl font-black text-white mt-0.5">₹1,500</p>
+              </div>
+              <button class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-colors shadow-lg shadow-indigo-900/50">
+                Book Now
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════ FEATURES ═══ -->
+<section class="py-24 bg-white dot-grid-light">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="text-center mb-16">
+      <p class="text-xs font-bold text-indigo-500 uppercase tracking-[0.2em] mb-3">Why Choose Us</p>
+      <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">
+        Everything you need to get<br class="hidden sm:block" /> legal help — instantly
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <!-- Card 1 -->
+      <div class="group bg-white rounded-2xl p-8 ring-1 ring-slate-200 hover:ring-indigo-400/60 card-lift cursor-default">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center mb-6 shadow-lg shadow-indigo-100 group-hover:shadow-indigo-200 transition-shadow duration-300">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+        </div>
+        <h3 class="text-base font-bold text-slate-900 mb-2">Verified Professionals</h3>
+        <p class="text-sm text-slate-500 leading-relaxed">Every lawyer is thoroughly vetted and credentialed before joining our platform.</p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="group bg-white rounded-2xl p-8 ring-1 ring-slate-200 hover:ring-indigo-400/60 card-lift cursor-default">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center mb-6 shadow-lg shadow-violet-100 group-hover:shadow-violet-200 transition-shadow duration-300">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <h3 class="text-base font-bold text-slate-900 mb-2">Instant Scheduling</h3>
+        <p class="text-sm text-slate-500 leading-relaxed">See real-time availability and book a slot in seconds — no waiting, no phone tag.</p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="group bg-white rounded-2xl p-8 ring-1 ring-slate-200 hover:ring-indigo-400/60 card-lift cursor-default">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center mb-6 shadow-lg shadow-blue-100 group-hover:shadow-blue-200 transition-shadow duration-300">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+        </div>
+        <h3 class="text-base font-bold text-slate-900 mb-2">Secure & Confidential</h3>
+        <p class="text-sm text-slate-500 leading-relaxed">All consultations are private and protected. Your legal matters stay between you and your lawyer.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Features Section -->
-<section class="py-16 bg-gray-50">
-  <div class="max-w-7xl mx-auto px-4">
-    <h2 class="text-3xl font-bold text-center mb-12">Why Choose Instalaw.in?</h2>
-    <div class="grid md:grid-cols-3 gap-8">
-      <div class="bg-white p-6 rounded-lg shadow-md">
-        <div
-          class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4"
-        >
-          <svg
-            class="w-6 h-6 text-blue-600"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-            />
-          </svg>
-        </div>
-        <h3 class="text-xl font-semibold mb-2">Verified Professionals</h3>
-        <p class="text-gray-600">
-          All lawyers are verified and experienced professionals in their
-          respective fields.
-        </p>
-      </div>
-
-      <div class="bg-white p-6 rounded-lg shadow-md">
-        <div
-          class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4"
-        >
-          <svg
-            class="w-6 h-6 text-blue-600"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-        </div>
-        <h3 class="text-xl font-semibold mb-2">Easy Scheduling</h3>
-        <p class="text-gray-600">
-          Book appointments at your convenience with our simple scheduling
-          system.
-        </p>
-      </div>
-
-      <div class="bg-white p-6 rounded-lg shadow-md">
-        <div
-          class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4"
-        >
-          <svg
-            class="w-6 h-6 text-blue-600"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"
-            />
-          </svg>
-        </div>
-        <h3 class="text-xl font-semibold mb-2">Secure Consultation</h3>
-        <p class="text-gray-600">
-          Get professional legal advice in a secure and confidential
-          environment.
-        </p>
-      </div>
+<!-- ══════════════════════════════════════ HOW IT WORKS ═══ -->
+<section class="py-24 bg-slate-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="text-center mb-16">
+      <p class="text-xs font-bold text-indigo-500 uppercase tracking-[0.2em] mb-3">Simple Process</p>
+      <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">From search to counsel<br class="hidden sm:block" /> in four steps</h2>
     </div>
-  </div>
-</section>
 
-<!-- How It Works Section -->
-<section class="py-16">
-  <div class="max-w-7xl mx-auto px-4">
-    <h2 class="text-3xl font-bold text-center mb-12">How It Works</h2>
     <div class="grid md:grid-cols-4 gap-8">
-      <div class="text-center">
-        <div
-          class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4"
-        >
-          <span class="text-2xl font-bold text-blue-600">1</span>
-        </div>
-        <h3 class="text-xl font-semibold mb-2">Search</h3>
-        <p class="text-gray-600">Find lawyers based on your legal needs</p>
+      <div class="text-center md:text-left">
+        <p class="text-7xl font-black text-slate-200 leading-none select-none mb-3">01</p>
+        <h3 class="text-base font-bold text-slate-900 mb-2">Search</h3>
+        <p class="text-sm text-slate-500 leading-relaxed">Browse lawyers by availability and budget</p>
       </div>
+      <div class="text-center md:text-left">
+        <p class="text-7xl font-black text-slate-200 leading-none select-none mb-3">02</p>
+        <h3 class="text-base font-bold text-slate-900 mb-2">Select</h3>
+        <p class="text-sm text-slate-500 leading-relaxed">Pick a lawyer and choose an open time slot</p>
+      </div>
+      <div class="text-center md:text-left">
+        <p class="text-7xl font-black text-slate-200 leading-none select-none mb-3">03</p>
+        <h3 class="text-base font-bold text-slate-900 mb-2">Book</h3>
+        <p class="text-sm text-slate-500 leading-relaxed">Confirm your appointment with one click</p>
+      </div>
+      <div class="text-center md:text-left">
+        <p class="text-7xl font-black text-slate-200 leading-none select-none mb-3">04</p>
+        <h3 class="text-base font-bold text-slate-900 mb-2">Connect</h3>
+        <p class="text-sm text-slate-500 leading-relaxed">Meet your lawyer and get expert legal guidance</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-      <div class="text-center">
-        <div
-          class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4"
-        >
-          <span class="text-2xl font-bold text-blue-600">2</span>
-        </div>
-        <h3 class="text-xl font-semibold mb-2">Select</h3>
-        <p class="text-gray-600">Choose a lawyer and available time slot</p>
-      </div>
+<!-- ═══════════════════════════════════════════════ CTA ═══ -->
+<section class="relative bg-slate-950 py-24 overflow-hidden dot-grid">
+  <div class="absolute inset-0 pointer-events-none overflow-hidden">
+    <div class="absolute top-0 left-1/2 w-[600px] h-[400px] bg-indigo-600/15 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+    <div class="absolute bottom-0 right-0 w-[400px] h-[400px] bg-violet-600/15 rounded-full blur-3xl"></div>
+  </div>
 
-      <div class="text-center">
-        <div
-          class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4"
-        >
-          <span class="text-2xl font-bold text-blue-600">3</span>
-        </div>
-        <h3 class="text-xl font-semibold mb-2">Book</h3>
-        <p class="text-gray-600">Schedule your consultation</p>
-      </div>
-
-      <div class="text-center">
-        <div
-          class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4"
-        >
-          <span class="text-2xl font-bold text-blue-600">4</span>
-        </div>
-        <h3 class="text-xl font-semibold mb-2">Connect</h3>
-        <p class="text-gray-600">Get expert legal advice</p>
-      </div>
+  <div class="relative max-w-3xl mx-auto px-4 text-center">
+    <p class="text-xs font-bold text-indigo-400 uppercase tracking-[0.2em] mb-4">Get Started Today</p>
+    <h2 class="text-3xl md:text-5xl font-extrabold text-white leading-tight tracking-tight mb-5">
+      Ready to get the legal<br class="hidden sm:block" /> help you deserve?
+    </h2>
+    <p class="text-slate-400 text-lg mb-10 max-w-xl mx-auto leading-relaxed">
+      No complicated process — just direct access to legal expertise whenever you need it.
+    </p>
+    <div class="flex flex-wrap justify-center gap-4">
+      <a routerLink="/search"
+        class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white px-8 py-3.5 rounded-xl font-semibold shadow-xl shadow-indigo-950 transition-all duration-200">
+        Find a Lawyer Now
+      </a>
+      <a *ngIf="!isLoggedIn()" routerLink="/register"
+        class="inline-flex items-center gap-2 glass hover:bg-white/12 text-white px-8 py-3.5 rounded-xl font-semibold transition-all duration-200">
+        Create Free Account
+      </a>
     </div>
   </div>
 </section>

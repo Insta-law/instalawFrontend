@@ -1,205 +1,173 @@
-<!-- my-bookings.component.html -->
-<div class="min-h-screen bg-gray-50 py-8">
-  <div class="max-w-6xl mx-auto px-4">
-    <h1 class="text-2xl font-bold text-gray-900 mb-6">My Bookings</h1>
+<div class="min-h-screen bg-slate-50 py-8">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6">
 
-    <!-- Loading state -->
-    <div *ngIf="isLoading" class="flex justify-center items-center h-64">
-      <div
-        class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"
-      ></div>
+    <!-- Page header -->
+    <div class="mb-8">
+      <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">My Bookings</h1>
+      <p class="text-sm text-slate-500 mt-1">Manage all your legal consultations in one place</p>
     </div>
 
-    <!-- Error message -->
-    <div
-      *ngIf="error"
-      class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6"
-    >
-      {{ error }}
-    </div>
-
-    <!-- No bookings message -->
-    <div
-      *ngIf="!isLoading && bookings.length === 0"
-      class="bg-white rounded-lg shadow-sm p-8 text-center"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="mx-auto h-12 w-12 text-gray-400"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-        />
-      </svg>
-      <h3 class="mt-2 text-lg font-medium text-gray-900">No bookings found</h3>
-      <p class="mt-1 text-gray-500">You haven't made any appointments yet.</p>
-      <div class="mt-6">
-        <a
-          routerLink="/lawyers"
-          class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-        >
-          Find a Lawyer
-        </a>
+    <!-- Loading -->
+    <div *ngIf="isLoading" class="flex flex-col items-center justify-center h-64 gap-4">
+      <div class="relative w-12 h-12">
+        <div class="absolute inset-0 rounded-full border-4 border-indigo-100"></div>
+        <div class="absolute inset-0 rounded-full border-4 border-t-indigo-600 animate-spin"></div>
       </div>
+      <p class="text-sm text-slate-500">Loading your bookings…</p>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error" class="bg-rose-50 border border-rose-100 text-rose-700 px-4 py-3.5 rounded-xl mb-6 flex items-center gap-3">
+      <svg class="w-4 h-4 text-rose-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <span class="text-sm">{{ error }}</span>
+    </div>
+
+    <!-- Empty (no bookings at all) -->
+    <div *ngIf="!isLoading && bookings.length === 0"
+      class="bg-white rounded-2xl ring-1 ring-slate-200 p-14 text-center max-w-md mx-auto">
+      <div class="w-16 h-16 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center mx-auto mb-5">
+        <svg class="w-8 h-8 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </div>
+      <h3 class="text-base font-bold text-slate-900 mb-1">No bookings yet</h3>
+      <p class="text-sm text-slate-500 mb-7 leading-relaxed">You haven't made any appointments yet. Find a lawyer to get started.</p>
+      <a routerLink="/search" class="btn-primary">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        Find a Lawyer
+      </a>
     </div>
 
     <!-- Bookings list -->
     <div *ngIf="!isLoading && bookings.length > 0">
-      <!-- Filter tabs -->
-      <div class="border-b border-gray-200 mb-6">
-        <nav class="-mb-px flex space-x-8">
-          <button
-            (click)="setActiveTab('upcoming')"
-            class="pb-4 px-1 border-b-2 font-medium text-sm"
-            [class.border-blue-500]="activeTab === 'upcoming'"
-            [class.text-blue-600]="activeTab === 'upcoming'"
-            [class.border-transparent]="activeTab !== 'upcoming'"
-            [class.text-gray-500]="activeTab !== 'upcoming'"
-          >
-            Upcoming
-          </button>
 
-          <button
-            (click)="setActiveTab('past')"
-            class="pb-4 px-1 border-b-2 font-medium text-sm"
-            [class.border-blue-500]="activeTab === 'past'"
-            [class.text-blue-600]="activeTab === 'past'"
-            [class.border-transparent]="activeTab !== 'past'"
-            [class.text-gray-500]="activeTab !== 'past'"
-          >
-            Past
-          </button>
-
-          <button
-            (click)="setActiveTab('cancelled')"
-            class="pb-4 px-1 border-b-2 font-medium text-sm"
-            [class.border-blue-500]="activeTab === 'cancelled'"
-            [class.text-blue-600]="activeTab === 'cancelled'"
-            [class.border-transparent]="activeTab !== 'cancelled'"
-            [class.text-gray-500]="activeTab !== 'cancelled'"
-          >
-            Cancelled
-          </button>
-        </nav>
+      <!-- Segmented tab control -->
+      <div class="inline-flex items-center bg-white ring-1 ring-slate-200 rounded-xl p-1 mb-6 shadow-sm">
+        <button (click)="setActiveTab('upcoming')"
+          class="px-5 py-2 text-sm font-semibold rounded-lg transition-all duration-200"
+          [ngClass]="activeTab === 'upcoming'
+            ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-md shadow-indigo-200'
+            : 'text-slate-500 hover:text-slate-800'">
+          Upcoming
+        </button>
+        <button (click)="setActiveTab('past')"
+          class="px-5 py-2 text-sm font-semibold rounded-lg transition-all duration-200"
+          [ngClass]="activeTab === 'past'
+            ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-md shadow-indigo-200'
+            : 'text-slate-500 hover:text-slate-800'">
+          Past
+        </button>
+        <button (click)="setActiveTab('cancelled')"
+          class="px-5 py-2 text-sm font-semibold rounded-lg transition-all duration-200"
+          [ngClass]="activeTab === 'cancelled'
+            ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-md shadow-indigo-200'
+            : 'text-slate-500 hover:text-slate-800'">
+          Cancelled
+        </button>
       </div>
 
-      <!-- No bookings for selected filter -->
-      <div
-        *ngIf="filteredBookings.length === 0"
-        class="bg-white rounded-lg shadow-sm p-8 text-center"
-      >
-        <h3 class="text-lg font-medium text-gray-900">
-          No {{ activeTab }} bookings
-        </h3>
-        <p class="mt-1 text-gray-500">
-          <ng-container *ngIf="activeTab === 'upcoming'"
-            >You don't have any upcoming appointments.</ng-container
-          >
-          <ng-container *ngIf="activeTab === 'past'"
-            >You don't have any past appointments.</ng-container
-          >
-          <ng-container *ngIf="activeTab === 'cancelled'"
-            >You don't have any cancelled appointments.</ng-container
-          >
+      <!-- Empty filter state -->
+      <div *ngIf="filteredBookings.length === 0"
+        class="bg-white rounded-2xl ring-1 ring-slate-200 p-10 text-center max-w-sm mx-auto">
+        <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center mx-auto mb-3">
+          <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+          </svg>
+        </div>
+        <h3 class="text-sm font-bold text-slate-900 mb-1">No {{ activeTab }} bookings</h3>
+        <p class="text-sm text-slate-500">
+          <ng-container *ngIf="activeTab === 'upcoming'">You don't have any upcoming appointments.</ng-container>
+          <ng-container *ngIf="activeTab === 'past'">You don't have any past appointments.</ng-container>
+          <ng-container *ngIf="activeTab === 'cancelled'">You don't have any cancelled appointments.</ng-container>
         </p>
       </div>
 
       <!-- Booking cards -->
-      <div *ngIf="filteredBookings.length > 0" class="space-y-4">
-        <div
-          *ngFor="let booking of filteredBookings"
-          class="bg-white rounded-lg shadow-sm overflow-hidden"
-        >
-          <!-- Status indicator -->
-          <div
-            class="h-2 w-full"
-            [class.bg-blue-500]="booking.status === 'BOOKED'"
-            [class.bg-green-500]="booking.status === 'COMPLETED'"
-            [class.bg-red-500]="booking.status === 'CANCELLED'"
-          ></div>
+      <div *ngIf="filteredBookings.length > 0" class="space-y-3">
+        <div *ngFor="let booking of filteredBookings"
+          class="bg-white rounded-2xl ring-1 ring-slate-200 overflow-hidden hover:ring-indigo-400/40 card-lift">
 
-          <div class="p-6">
-            <div class="sm:flex sm:items-start sm:justify-between">
-              <!-- Booking details -->
-              <div>
-                <h3 class="text-lg font-bold text-gray-900">
-                  {{ booking.lawyer.userName }}
-                </h3>
+          <!-- Colored left accent strip via border-l trick -->
+          <div class="flex">
+            <!-- Left accent bar -->
+            <div class="w-1 flex-shrink-0"
+              [ngClass]="{
+                'bg-indigo-500': booking.status === 'BOOKED',
+                'bg-emerald-500': booking.status === 'COMPLETED',
+                'bg-rose-400':   booking.status === 'CANCELLED'
+              }">
+            </div>
 
-                <div class="mt-2 text-sm text-gray-500">
-                  <div class="flex items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-4 w-4 mr-2"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                      />
-                    </svg>
-                    <span>{{ formatDate(booking.workingDate) }}</span>
+            <div class="flex-1 p-5">
+              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+
+                <!-- Left: info -->
+                <div class="flex items-start gap-4">
+                  <!-- Avatar -->
+                  <div class="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 font-black text-white text-sm shadow-sm"
+                    [ngClass]="{
+                      'bg-gradient-to-br from-indigo-500 to-violet-600': booking.status === 'BOOKED',
+                      'bg-gradient-to-br from-emerald-500 to-teal-600':  booking.status === 'COMPLETED',
+                      'bg-slate-400':                                     booking.status === 'CANCELLED'
+                    }">
+                    {{ booking.lawyer.userName.charAt(0).toUpperCase() }}
                   </div>
 
-                  <div class="flex items-center mt-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-4 w-4 mr-2"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                    <span>{{ booking.slot.time }}</span>
+                  <div>
+                    <h3 class="text-sm font-bold text-slate-900">{{ booking.lawyer.userName }}</h3>
+                    <div class="mt-2 space-y-1.5">
+                      <div class="flex items-center gap-1.5 text-xs text-slate-500">
+                        <svg class="h-3.5 w-3.5 text-slate-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        {{ formatDate(booking.workingDate) }}
+                      </div>
+                      <div class="flex items-center gap-1.5 text-xs text-slate-500">
+                        <svg class="h-3.5 w-3.5 text-slate-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        {{ booking.slot.time }}
+                      </div>
+                    </div>
+
+                    <!-- Status badge -->
+                    <div class="mt-3">
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider"
+                        [ngClass]="{
+                          'bg-indigo-100 text-indigo-700': booking.status === 'BOOKED',
+                          'bg-emerald-100 text-emerald-700': booking.status === 'COMPLETED',
+                          'bg-rose-100 text-rose-700': booking.status === 'CANCELLED'
+                        }">
+                        {{ booking.status }}
+                      </span>
+                    </div>
                   </div>
                 </div>
 
-                <!-- Status tag -->
-                <div class="mt-3">
-                  <span
-                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
-                    [class.bg-blue-100]="booking.status === 'BOOKED'"
-                    [class.text-blue-800]="booking.status === 'BOOKED'"
-                    [class.bg-green-100]="booking.status === 'COMPLETED'"
-                    [class.text-green-800]="booking.status === 'COMPLETED'"
-                    [class.bg-red-100]="booking.status === 'CANCELLED'"
-                    [class.text-red-800]="booking.status === 'CANCELLED'"
-                  >
-                    {{ booking.status }}
-                  </span>
+                <!-- Right: action -->
+                <div class="flex-shrink-0 pl-15 sm:pl-0 self-center">
+                  <button *ngIf="canCancel(booking)" (click)="cancelBooking(booking.id)"
+                    class="inline-flex items-center gap-1.5 px-3.5 py-2 border border-rose-200 text-xs font-semibold rounded-xl text-rose-600 bg-rose-50 hover:bg-rose-100 transition-all duration-150">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                    Cancel
+                  </button>
                 </div>
-              </div>
 
-              <!-- Actions -->
-              <div class="mt-4 sm:mt-0">
-                <button
-                  *ngIf="canCancel(booking)"
-                  (click)="cancelBooking(booking.id)"
-                  class="inline-flex items-center px-3 py-1.5 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-red-600 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                >
-                  Cancel Booking
-                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </div>

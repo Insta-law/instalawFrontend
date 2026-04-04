@@ -29,22 +29,28 @@ export class AuthService {
       const savedUser = localStorage.getItem('user');
 
       if (savedUser) {
-        // First set the user from localStorage
-        this.userSubject.next(JSON.parse(savedUser));
-        this.isAuthenticated().subscribe({
-          next: (isValid) => {
-            if (!isValid) {
-              // If backend says session is invalid, logout
-              console.log('Session expired, logging out');
+        try {
+          const parsed = JSON.parse(savedUser);
+          // First set the user from localStorage
+          this.userSubject.next(parsed);
+          this.isAuthenticated().subscribe({
+            next: (isValid) => {
+              if (!isValid) {
+                // If backend says session is invalid, logout
+                console.log('Session expired, logging out');
+                this.handleLogout();
+              }
+            },
+            error: () => {
+              // On error, assume session is invalid
+              console.log('Session verification failed, logging out');
               this.handleLogout();
-            }
-          },
-          error: () => {
-            // On error, assume session is invalid
-            console.log('Session verification failed, logging out');
-            this.handleLogout();
-          },
-        });
+            },
+          });
+        } catch {
+          // Corrupted localStorage value — clear it and start fresh
+          localStorage.removeItem('user');
+        }
       }
     }
   }

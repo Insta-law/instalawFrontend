@@ -18,6 +18,7 @@ export class SearchComponent implements OnInit {
   filteredLawyers: LawyerSearch[] = [];
   isLoading = false;
   error: string | null = null;
+  isUnauthorized = false;
   selectedDate: string;
 
   constructor(
@@ -49,6 +50,7 @@ export class SearchComponent implements OnInit {
   loadLawyers(): void {
     this.isLoading = true;
     this.error = null;
+    this.isUnauthorized = false;
 
     this.lawyerService.getAllLawyers().subscribe({
       next: (lawyers) => {
@@ -56,8 +58,12 @@ export class SearchComponent implements OnInit {
         this.applyFilters();
         this.isLoading = false;
       },
-      error: (err) => {
-        this.error = 'Failed to load lawyers';
+      error: (err: { status: number }) => {
+        if (err.status === 403) {
+          this.isUnauthorized = true;
+        } else {
+          this.error = 'Failed to load lawyers. Please try again.';
+        }
         this.isLoading = false;
       },
     });

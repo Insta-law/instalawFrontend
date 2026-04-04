@@ -1,7 +1,13 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
+
+function passwordsMatch(group: AbstractControl): ValidationErrors | null {
+  const password = group.get('password')?.value;
+  const confirmPassword = group.get('confirmPassword')?.value;
+  return password === confirmPassword ? null : { passwordMismatch: true };
+}
 
 @Component({
   selector: 'app-register',
@@ -24,9 +30,10 @@ export class RegisterComponent {
       username: ['', Validators.required],
       phone: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', Validators.required],
       role: ['CONSUMER_ROLE', Validators.required],
       govtId: [''],
-    });
+    }, { validators: passwordsMatch });
 
     // Add conditional validators for lawyer fields
     this.registerForm.get('role')?.valueChanges.subscribe((role) => {
@@ -43,6 +50,11 @@ export class RegisterComponent {
     });
   }
 
+  get passwordMismatch(): boolean {
+    return !!(this.registerForm.errors?.['passwordMismatch'] &&
+      this.registerForm.get('confirmPassword')?.dirty);
+  }
+
   requestSignup() {
     if (this.registerForm.valid) {
       this.isLoading = true;
@@ -53,7 +65,7 @@ export class RegisterComponent {
         phone: this.registerForm.value.phone,
         password: this.registerForm.value.password,
         role: this.registerForm.value.role,
-        govtId: this.registerForm.value.govtId || '', // Ensure empty string instead of null
+        govtId: this.registerForm.value.govtId || '',
       };
       this.authService.requestSignup(signupData).subscribe({
         next: () => {
@@ -73,11 +85,18 @@ export class RegisterComponent {
       this.isLoading = true;
       this.error = '';
 
+      const email = this.registerForm.value.email;
+      const password = this.registerForm.value.password;
+
       this.authService
         .finalizeSignup(this.registerForm.value, this.otp)
         .subscribe({
           next: () => {
-            this.router.navigate(['/']);
+            // Establish a proper session by logging in after registration
+            this.authService.login(email, password).subscribe({
+              next: () => this.router.navigate(['/']),
+              error: () => this.router.navigate(['/login']),
+            });
           },
           error: (err) => {
             this.error =
