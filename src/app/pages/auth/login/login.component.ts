@@ -32,7 +32,6 @@ export class LoginComponent {
 
       this.authService.login(email, password).subscribe({
         next: (response) => {
-          console.log('Login successful:', response);
           if (response.userDetails.role.roleName === 'PROVIDER_ROLE') {
             this.router.navigate(['/lawyer']);
           } else {
@@ -40,7 +39,8 @@ export class LoginComponent {
           }
         },
         error: (err) => {
-          this.error = err.error.errorResponse || 'Login failed. Please try again.';
+          this.error =
+            err.error.errorResponse || 'Login failed. Please try again.';
           this.isLoading = false;
         },
       });
